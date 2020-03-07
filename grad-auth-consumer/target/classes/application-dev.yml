@@ -1,0 +1,7 @@
+### 配置消费者客户端auth-consumer 启动端口号
+server:
+    port: 22222
+### 配合消费者客户端名称
+spring:
+    application:
+        name: grad-auth-consumer

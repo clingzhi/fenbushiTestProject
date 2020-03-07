@@ -1,13 +1,18 @@
 package cc.ysf.dx;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+
 /**
- * Hello world!
+ * >>> 爱旅行注册中心启动类
  *
  */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+
+@EnableEurekaServer
+@SpringBootApplication
+public class ServerStarterAPP {
+    public static void main( String[] args ) {
+        SpringApplication.run(ServerStarterAPP.class,args);
     }
 }

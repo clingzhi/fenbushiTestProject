@@ -7,6 +7,58 @@
 	<groupId>cc.ysf.dx</groupId>
 	<artifactId>grad-parent</artifactId>
 	<version>1.0.0</version>
+	<packaging>pom</packaging>
+
+	<!-- 配置项目使用Spring Boot Parent作为父级依赖关系 [BEGIN] -->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.13.RELEASE</version>
+	</parent>
+	<!-- 配置项目使用Spring Boot Parent作为父级依赖关系 [END] -->
+
+	<dependencies>
+		<!-- 配置Spring Boot Web依赖关系 [BEGIN] -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<!-- 配置Spring Boot Web依赖关系 [END] -->
+	</dependencies>
+
+	<!-- 配置Spring Cloud依赖关系 [BEGIN] -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>Greenwich.SR5</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<!-- 配置Spring Cloud依赖关系 [END] -->
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!-- 配置Spring Boot项目的Maven打包插件 [BEGIN] -->
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<executions>
+						<execution>
+							<goals>
+								<goal>repackage</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<!-- 配置Spring Boot项目的Maven打包插件 [END] -->
+			</plugins>
+		</pluginManagement>
+	</build>
 
 
 </project>

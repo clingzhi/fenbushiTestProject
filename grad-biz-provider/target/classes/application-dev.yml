@@ -1,0 +1,7 @@
+### 配置生产者biz主业务模块启动端口号
+server:
+    port: 33333
+### 配置生产者biz主业务模块生产者名称
+spring:
+    application:
+        name: grad-biz-provider
