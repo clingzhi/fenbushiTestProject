@@ -6,6 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -32,4 +33,20 @@ public interface UserTransport {
 	 */
 	@PostMapping("/save")
 	boolean saveUser(@RequestBody User user) throws Exception;
+
+	/**
+	 * >>> 通过用户注册账号去redis查询用户激活码
+	 * @param userCode
+	 * @return
+	 */
+	@PostMapping(value = "/activeCode")
+	String getActiveCodeByUser(@RequestParam String userCode)throws Exception;
+
+	/**
+	 * >>> 更新用户数据
+	 * @param updateUser
+	 * @return
+	 */
+	@PostMapping("/updateUser")
+	boolean updateUser(@RequestBody User updateUser) throws Exception;
 }

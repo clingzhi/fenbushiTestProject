@@ -24,4 +24,18 @@ public interface UserService {
 	 * @return
 	 */
 	boolean saveUser(User user) throws Exception;
+
+	/**
+	 * >>> 通过用户注册账号去redis查询用户激活码
+	 * @param userCode
+	 * @return
+	 */
+	String getActiveCodeByUser(String userCode)throws Exception;
+
+	/**
+	 * >>> 更新用户数据
+	 * @param updateUser
+	 * @return
+	 */
+	boolean updateUser(User updateUser) throws Exception;
 }

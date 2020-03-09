@@ -4,10 +4,7 @@ import cc.ysf.dx.dao.UserDao;
 import cc.ysf.dx.pojo.entity.User;
 import cc.ysf.dx.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,5 +37,25 @@ public class UserTransportImpl implements UserTransport {
 	@PostMapping("/save")
 	public boolean saveUser(@RequestBody User user) throws Exception {
 		return userService.saveUser(user);
+	}
+
+	/**
+	 * >>> 通过用户注册账号去redis查询用户激活码
+	 * @param userCode
+	 * @return
+	 */
+	@PostMapping("/activeCode")
+	public String getActiveCodeByUser(@RequestParam String userCode) throws Exception {
+		return userService.getActiveCodeByUser(userCode);
+	}
+
+	/**
+	 * >>> 更新用户数据
+	 * @param updateUser
+	 * @return
+	 */
+	@PostMapping("/updateUser")
+	public boolean updateUser(@RequestBody User updateUser) throws Exception {
+		return userService.updateUser(updateUser);
 	}
 }
