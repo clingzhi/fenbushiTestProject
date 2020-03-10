@@ -7,6 +7,7 @@ import cc.ysf.dx.base.pojo.vo.ResponseDto;
 import cc.ysf.dx.pojo.entity.User;
 import cc.ysf.dx.pojo.vo.UserVO;
 import cc.ysf.dx.transport.UserTransport;
+import cc.ysf.dx.util.JWTUtil;
 import cc.ysf.dx.util.MD5Util;
 import cc.ysf.dx.util.RegValidationUtil;
 import org.aspectj.apache.bcel.classfile.Code;
@@ -193,5 +194,52 @@ public class AuthController extends BaseController {
 			return ResponseDto.failure("激活码不正确！");
 		}
 		return ResponseDto.failure("激活失败！");
+	}
+
+	/**
+	 * >>> 使用电话/邮箱进行用户登录
+	 * @param name
+	 * @param password
+	 * @return
+	 * @throws Exception
+	 */
+	@PostMapping("/dologin")
+	public ResponseDto<Object> doLogin(String name, String password) throws Exception{
+		if(name != null && !"".equals(name.trim()) && password != null &&
+			!"".equals(password.trim())){
+			//判断账号是否存在于数据库
+			User userquery = new User();
+			userquery.setUserCode(name);
+			List<User> userList = userTransport.getUserListByUserQuery(userquery);
+			if(userList != null && userList.size()>0){
+				User user =userList.get(0);
+				//账号存在，对密码进行判断
+				if(user.getUserPassword().equals(MD5Util.encrypt(password))){
+					//密码正确，对用户账号是否激活进行判断】
+					if(user.getActivated()==UserActivatedEnum.USER_ACTIVATED_YES.getCode()){
+						//用户状态为激活，将用户保存到token中
+
+						// 登陆成功，按照相应的技术，生成一个Token令牌，以Cookie形式交给浏览器，
+						// 每当浏览器在访问其他服务器的时候，都会携带该信息，如果需要校验该用户是否登陆，
+						// 只需要校验该Token是否是按照系统规则生成的即可。
+						// 在Java当中，Token技术使用了JWT（Java Web Token）来完成
+
+						// 使用当前登陆用户的id生成Token信息
+						String token = JWTUtil.createToken(user.getId());
+						//将token随响应交给浏览器
+						response.setHeader("Authorization", token);
+						return ResponseDto.success(token);
+					}else {
+						return ResponseDto.failure("该账号未激活！");
+					}
+				}else {
+					return ResponseDto.failure("密码不正确哦！");
+				}
+			}else {
+				return ResponseDto.failure("么账号你登录锤子呢！能不能先去注册！");
+			}
+		}else {
+			return ResponseDto.failure("先写一哈账号和密码！");
+		}
 	}
 }

@@ -53,6 +53,14 @@
 		</dependency>
 		<!-- 配置容联云组件所需要的依赖关系 [2] -->
 
+		<!-- 配置 JWT 所需要的依赖关系 [BEGIN] -->
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>3.10.0</version>
+		</dependency>
+		<!-- 配置 JWT 所需要的依赖关系 [END] -->
+
 
 		<dependency>
 			<groupId>junit</groupId>
