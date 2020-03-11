@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * >>> 爱旅行 传输层实现类
+ * >>> 爱旅行 用户认证传输层实现类
  */
 @RestController("userTransport")
 @RequestMapping("/user/trans")

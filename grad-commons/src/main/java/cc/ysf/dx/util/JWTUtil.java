@@ -33,12 +33,14 @@ public class JWTUtil {
 		JWTCreator.Builder builder = JWT.create();
 
 		// 创建一个Map集合，用于存储JWT的头部信息
-		Map<String, String> header = new HashMap<String, String>();
+		Map<String, Object> header = new HashMap<String, Object>();
 		// 设定加密算法
 		header.put("alg", "HS256");
 		// 设定token类型
 		header.put("typ", "JWT");
 
+		//将头部信息插入语JWT
+		builder.withHeader(header);
 		// 设置有效载荷
 		builder.withClaim("id", id);
 		// 为前端设置过期时间--当前时间+有效时间=到期时间

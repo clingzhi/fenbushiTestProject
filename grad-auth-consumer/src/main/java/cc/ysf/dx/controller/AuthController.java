@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * >>> 爱旅行 认证控制模块
+ * >>> 爱旅行 认证控制模块控制类
  *
  */
 
@@ -132,7 +132,7 @@ public class AuthController extends BaseController {
 	 */
 	@PostMapping("/registerbyphone")
 	public ResponseDto<Object> registerByCellphone(@RequestBody UserVO userVO)throws Exception{
-		// 检验用户注册的邮箱是否有效
+		// 检验用户注册的手机号是否有效
 		if (RegValidationUtil.validateCellphone(userVO.getUserCode())
 				&& userVO.getUserPassword()!= null && !"".equals(userVO.getUserPassword())){
 

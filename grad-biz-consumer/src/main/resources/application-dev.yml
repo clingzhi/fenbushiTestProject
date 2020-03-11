@@ -1,0 +1,7 @@
+### 配置消费者客户端biz-consumer 启动端口号
+server:
+    port: 44444
+### 配合消费者客户端名称
+spring:
+    application:
+        name: grad-biz-consumer

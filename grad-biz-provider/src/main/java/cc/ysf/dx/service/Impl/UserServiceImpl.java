@@ -7,7 +7,6 @@ import cc.ysf.dx.util.ActiveCodeUtil;
 import cc.ysf.dx.util.MailSenderUtil;
 import cc.ysf.dx.util.RegValidationUtil;
 import cc.ysf.dx.util.SmsSenderUtil;
-import org.apache.naming.factory.SendMailFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;

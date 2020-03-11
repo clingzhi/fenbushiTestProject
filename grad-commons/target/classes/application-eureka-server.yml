@@ -18,3 +18,7 @@ hystrix:
 ribbon:
     ReadTimeout: 5000
     ConnectTimeout: 5000
+# 允许spring Cloud 运行传输层时，多个接口的生产者为同一个。
+spring:
+    main:
+        allow-bean-definition-overriding: true

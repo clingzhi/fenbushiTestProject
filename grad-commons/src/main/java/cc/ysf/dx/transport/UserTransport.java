@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 /**
- * >>> 爱旅行 用户信息传输层接口
+ * >>> 爱旅行 用户认证信息传输层接口
  */
 @FeignClient(name = "grad-biz-provider")
 @RequestMapping("/user/trans")

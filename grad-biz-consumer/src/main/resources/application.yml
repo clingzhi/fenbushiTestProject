@@ -1,0 +1,4 @@
+### 配置客户端启动需要的配置文件后缀
+spring:
+    profiles:
+        active: dev,eureka-server,mail
