@@ -205,6 +205,7 @@ public class AuthController extends BaseController {
 	 */
 	@PostMapping("/dologin")
 	public ResponseDto<Object> doLogin(String name, String password) throws Exception{
+
 		if(name != null && !"".equals(name.trim()) && password != null &&
 			!"".equals(password.trim())){
 			//判断账号是否存在于数据库
@@ -212,6 +213,7 @@ public class AuthController extends BaseController {
 			userquery.setUserCode(name);
 			List<User> userList = userTransport.getUserListByUserQuery(userquery);
 			if(userList != null && userList.size()>0){
+				// 得到一个用户
 				User user =userList.get(0);
 				//账号存在，对密码进行判断
 				if(user.getUserPassword().equals(MD5Util.encrypt(password))){

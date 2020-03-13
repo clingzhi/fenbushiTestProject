@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +24,13 @@ public class AreaDicServiceImpl implements AreaDicService {
 
 
 	public List<AreaDic> getAreaDicListByQuery(AreaDic query) throws Exception {
-		return areaDicDao.findAreaDicListByQuery(query);
+		//查询
+		List<AreaDic> areaDicList = areaDicDao.findAreaDicListByQuery(query);
+
+		if(areaDicList!=null){
+			return areaDicList;
+		}
+		//如果查询不到返回一个空的集合，防止空指针异常
+		return new ArrayList<AreaDic>();
 	}
 }

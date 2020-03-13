@@ -3,7 +3,6 @@ package cc.ysf.dx.transport;
 import cc.ysf.dx.pojo.entity.LabelDic;
 import cc.ysf.dx.service.LabelDicService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

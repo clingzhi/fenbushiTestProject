@@ -2,7 +2,6 @@ package cc.ysf.dx.transport;
 
 import cc.ysf.dx.pojo.entity.AreaDic;
 import cc.ysf.dx.service.AreaDicService;
-import cc.ysf.dx.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -17,5 +17,5 @@ public interface AreaDicDao {
 	 * @return
 	 * @throws Exception
 	 */
-	List<AreaDic> findAreaDicListByQuery(AreaDic query) throws Exception;
+	 List<AreaDic> findAreaDicListByQuery(AreaDic query) throws Exception;
 }

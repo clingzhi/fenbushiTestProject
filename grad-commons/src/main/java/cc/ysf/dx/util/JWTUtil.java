@@ -20,7 +20,7 @@ import java.util.Map;
  * > 这样，就实现了用户在不同的服务器上都能实现业务的功能
  */
 public class JWTUtil {
-	//配置秘钥
+	// 使用加密算法配置秘钥
 	private static Algorithm algorithm = Algorithm.HMAC256(SecretKeyConstant.SECRET_key);
 
 	/**
@@ -47,7 +47,7 @@ public class JWTUtil {
 		Long expTime = new Date().getTime() + (30 * 60 * 1000);
 		builder.withClaim("expTime", new Date(expTime));
 
-		// 使用算法进行签名，生成最终的Token字符串
+		// 加入签名部分，生成最终的Token字符串
 		return builder.sign(algorithm);
 	}
 

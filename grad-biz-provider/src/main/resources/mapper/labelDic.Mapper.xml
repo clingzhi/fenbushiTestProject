@@ -4,18 +4,18 @@
 <mapper namespace="cc.ysf.dx.dao.LabelDicDao">
 	<select id="findListByQuery" parameterType="LabelDic" resultMap="LabelDicMap">
 		select
-		ild.id,
-		ild.name,
-		ild.value,
-		ild.description,
-		ild.parentId,
-		ild.pic,
-		ild.creationDate,
-		ild.createdBy,
-		ild.modifyDate,
-		ild.modifiedBy
+			ild.id,
+			ild.name,
+			ild.value,
+			ild.description,
+			ild.parentId,
+			ild.pic,
+			ild.creationDate,
+			ild.createdBy,
+			ild.modifyDate,
+			ild.modifiedBy
 		from
-		itrip_label_dic ild
+			itrip_label_dic ild
 		<where>
 			<trim suffixOverrides="and">
 				<if test="id != null">ild.id=#{id} and </if>

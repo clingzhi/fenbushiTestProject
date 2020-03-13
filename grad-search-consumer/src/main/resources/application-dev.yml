@@ -1,0 +1,7 @@
+### 配置搜索客户端biz-consumer 启动端口号
+server:
+    port: 55555
+### 配合消费者客户端名称
+spring:
+    application:
+        name: grad-search-consumer
