@@ -1,4 +1,4 @@
 ### 配置biz 主业务模块启动需要的配置
 spring:
     profiles:
-        active: dev,eureka-server,data,mail,redis
+        active: dev,eureka-server,data,mail,redis,solr

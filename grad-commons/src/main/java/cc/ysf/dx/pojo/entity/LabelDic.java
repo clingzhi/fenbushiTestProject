@@ -15,6 +15,7 @@ public class LabelDic implements Serializable {
 	private String description;
 	private Long parentId;
 	private String pic;
+	private Long hotelId;
 	private Date creationDate;
 	private Long createdBy;
 	private Date modifyDate;
@@ -66,6 +67,14 @@ public class LabelDic implements Serializable {
 
 	public void setPic(String pic) {
 		this.pic = pic;
+	}
+
+	public Long getHotelId() {
+		return hotelId;
+	}
+
+	public void setHotelId(Long hotelId) {
+		this.hotelId = hotelId;
 	}
 
 	public Date getCreationDate() {

@@ -5,7 +5,6 @@ import cc.ysf.dx.pojo.entity.Hotel;
 import cc.ysf.dx.pojo.vo.HotelVO;
 import cc.ysf.dx.pojo.vo.SearchHotCityVO;
 import cc.ysf.dx.service.SearchHotelService;
-import com.github.pagehelper.PageHelper;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
@@ -15,17 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service("hotelService")
 @Transactional
 public class SearchHotelServiceImpl implements SearchHotelService {
-	@Resource(name = "searchHotelDao")
-	private SearchHotelDao searchHotelDao;
 	@Autowired
 	private SolrClient solrClient;
+	@Autowired
+	private SearchHotelDao searchHotelDao;
 
 	/**
 	 * >>> 根据条件查询热门城市酒店列表

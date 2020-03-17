@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.ysf.dx.dao.HotelOrderDao">
+	<select id="findOrderRoomCountByQuery" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select
+			count(iho.count)
+		from
+			itrip_hotel_order iho
+		where
+			iho.roomId=#{roomId}
+		and
+			date_format(iho.checkInDate, '%Y-%m-%d %H:%i:%s') &lt;= date_format(#{endDate}, '%Y-%m-%d %H:%i:%s')
+		and
+			date_format(iho.checkOutDate, '%Y-%m-%d %H:%i:%s') &gt;= date_format(#{startDate}, '%Y-%m-%d %H:%i:%s')
+		and
+			iho.orderStatus in (0, 2)
+	</select>
+</mapper>

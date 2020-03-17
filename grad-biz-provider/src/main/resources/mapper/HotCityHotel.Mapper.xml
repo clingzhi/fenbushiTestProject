@@ -4,28 +4,28 @@
 <mapper namespace="cc.ysf.dx.dao.SearchHotelDao">
 	<select id="findListByQuery" parameterType="Hotel" resultMap="hotelMap">
 		select
-		ih.id,
-		ih.hotelName,
-		ih.countryId,
-		ih.provinceId,
-		ih.cityId,
-		ih.address,
-		ih.details,
-		ih.facilities,
-		ih.hotelPolicy,
-		ih.hotelType,
-		ih.hotelLevel,
-		ih.isGroupPurchase,
-		ih.redundantCityName,
-		ih.redundantProvinceName,
-		ih.redundantCountryName,
-		ih.redundantHotelStore,
-		ih.creationDate,
-		ih.createdBy,
-		ih.modifyDate,
-		ih.modifiedBy
+			ih.id,
+			ih.hotelName,
+			ih.countryId,
+			ih.provinceId,
+			ih.cityId,
+			ih.address,
+			ih.details,
+			ih.facilities,
+			ih.hotelPolicy,
+			ih.hotelType,
+			ih.hotelLevel,
+			ih.isGroupPurchase,
+			ih.redundantCityName,
+			ih.redundantProvinceName,
+			ih.redundantCountryName,
+			ih.redundantHotelStore,
+			ih.creationDate,
+			ih.createdBy,
+			ih.modifyDate,
+			ih.modifiedBy
 		from
-		itrip_hotel ih
+			itrip_hotel ih
 		<where>
 			<trim suffixOverrides="and">
 				<if test="id != null">ih.id=#{id} and </if>

@@ -6,6 +6,7 @@ import cc.ysf.dx.base.pojo.vo.ResponseDto;
 import cc.ysf.dx.pojo.entity.AreaDic;
 import cc.ysf.dx.pojo.entity.Hotel;
 import cc.ysf.dx.pojo.entity.LabelDic;
+import cc.ysf.dx.pojo.vo.SearchDetailsHotelVO;
 import cc.ysf.dx.transport.AreaDicTransPort;
 import cc.ysf.dx.transport.LabelDicTransport;
 import cc.ysf.dx.transport.SearchHotelTransport;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,9 +69,7 @@ public class HotelController extends BaseController {
 		// 创建查询对象
 		LabelDic query = new LabelDic();
 		query.setParentId(16L);
-
 		List<LabelDic> labelDicList = labelDicTransport.getListByQuery(query);
-
 		return ResponseDto.success(labelDicList);
 	}
 
@@ -83,5 +83,56 @@ public class HotelController extends BaseController {
 	public ResponseDto<Object> getVideoDesc(@PathVariable("hotelId") Long hotelId) throws Exception {
 		Hotel hotel = searchHotelTransport.getHotelById(hotelId);
 		return ResponseDto.success(hotel);
+	}
+
+	/**
+	 * >>> 查询酒店特色详情介绍，根据酒店ID
+	 * @param hotelId
+	 * @return
+	 * @throws Exception
+	 */
+	@GetMapping("/queryhoteldetails/{hotelId}")
+	public ResponseDto<Object> queryHotelDetailsById(@PathVariable("hotelId") Long hotelId)throws Exception{
+		//设置查询结果集
+		List<SearchDetailsHotelVO> resultList = new ArrayList<SearchDetailsHotelVO>();
+		// 根据酒店主键查询酒店信息
+		Hotel hotel = searchHotelTransport.getHotelById(hotelId);
+		// 增加数据
+		resultList.add(new SearchDetailsHotelVO("酒店介绍", hotel.getDetails()));
+		// 查询该酒店对应的特色信息列表
+		LabelDic labelDicQuery = new LabelDic();
+		labelDicQuery.setHotelId(hotelId);
+		List<LabelDic> labelDicList = labelDicTransport.getListByQuery(labelDicQuery);
+		if (labelDicList != null && labelDicList.size() > 0) {
+			for (LabelDic labelDic : labelDicList) {
+				resultList.add(new SearchDetailsHotelVO(labelDic.getName(), labelDic.getDescription()));
+			}
+		}
+
+		return ResponseDto.success(resultList);
+	}
+
+	/**
+	 * <b>根据酒店id查询酒店设施</b>
+	 * @param hotelId
+	 * @return
+	 * @throws Exception
+	 */
+	@GetMapping("/queryhotelfacilities/{hotelId}")
+	public ResponseDto<Object> queryHotelFacilities(@PathVariable("hotelId") Long hotelId) throws Exception {
+		Hotel hotel = searchHotelTransport.getHotelById(hotelId);
+		return ResponseDto.success(hotel.getFacilities());
+	}
+
+	/**
+	 * <b>根据酒店id查询酒店政策</b>
+	 * @param hotelId
+	 * @return
+	 * @throws Exception
+	 */
+	@GetMapping("/queryhotelpolicy/{hotelId}")
+	public ResponseDto<Object> queryHotelPolicy(@PathVariable("hotelId") Long hotelId) throws Exception {
+		Hotel hotel = searchHotelTransport.getHotelById(hotelId);
+		return ResponseDto.success(hotel.getHotelPolicy());
 	}
 }

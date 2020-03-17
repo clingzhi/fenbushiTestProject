@@ -5,12 +5,8 @@ import cc.ysf.dx.pojo.vo.HotelVO;
 import cc.ysf.dx.pojo.vo.SearchHotCityVO;
 import cc.ysf.dx.service.SearchHotelService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
 /**
  * >>> 爱旅行--系统典信息传输层接口实现类--热门城市的酒店信息
@@ -27,7 +23,7 @@ public class SearchHotelTransportImpl implements SearchHotelTransport {
 	 * @throws Exception
 	 */
 	@PostMapping("/hotellist")
-	public List<HotelVO> searchItripHotelListByHotCity(SearchHotCityVO searchHotCityVO) throws Exception {
+	public List<HotelVO> searchItripHotelListByHotCity(@RequestBody SearchHotCityVO searchHotCityVO) throws Exception {
 		return searchHotelService.getHotelListByHotCity(searchHotCityVO);
 	}
 
