@@ -17,7 +17,7 @@ public interface HotelRoomDao {
 	 * @param query
 	 * @return
 	 */
-	List<HotelRoom> findHotelRoomListByHotel(HotelRoom query) throws Exception;
+	List<HotelRoom> findHotelRoomList(HotelRoom query) throws Exception;
 	/**
 	 * >>> 根据查询条件获得此时的临时库存数量
 	 * @param queryMap

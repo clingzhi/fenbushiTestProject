@@ -1,0 +1,7 @@
+### 配置支付模块暴露地址
+server:
+    port: 6666
+### 自己的名字
+spring:
+    application:
+        name: grad-trade-consumer

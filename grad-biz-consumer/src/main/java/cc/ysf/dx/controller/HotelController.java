@@ -2,12 +2,15 @@ package cc.ysf.dx.controller;
 
 import cc.ysf.dx.base.controller.BaseController;
 import cc.ysf.dx.base.enums.AreaHotCityEnum;
+import cc.ysf.dx.base.enums.ItripImgType;
 import cc.ysf.dx.base.pojo.vo.ResponseDto;
 import cc.ysf.dx.pojo.entity.AreaDic;
 import cc.ysf.dx.pojo.entity.Hotel;
+import cc.ysf.dx.pojo.entity.ItripImage;
 import cc.ysf.dx.pojo.entity.LabelDic;
 import cc.ysf.dx.pojo.vo.SearchDetailsHotelVO;
 import cc.ysf.dx.transport.AreaDicTransPort;
+import cc.ysf.dx.transport.ItripImagesTransport;
 import cc.ysf.dx.transport.LabelDicTransport;
 import cc.ysf.dx.transport.SearchHotelTransport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,8 @@ public class HotelController extends BaseController {
 	private LabelDicTransport labelDicTransport;
 	@Autowired
 	private SearchHotelTransport searchHotelTransport;
+	@Autowired
+	private ItripImagesTransport itripImagesTransport;
 
 	/**
 	 * >>> 根据条件查询热门酒店列表
@@ -134,5 +139,23 @@ public class HotelController extends BaseController {
 	public ResponseDto<Object> queryHotelPolicy(@PathVariable("hotelId") Long hotelId) throws Exception {
 		Hotel hotel = searchHotelTransport.getHotelById(hotelId);
 		return ResponseDto.success(hotel.getHotelPolicy());
+	}
+	/**
+	 * >>> 查询房型图片 targetId的Type=0
+	 * @param targetId
+	 * @return
+	 * @throws Exception
+	 */
+	@GetMapping("/getimg/{targetId}")
+	public  ResponseDto<Object> quwryHotelImg(@PathVariable("targetId") Long targetId) throws Exception{
+		//封装查询对象
+		ItripImage query = new ItripImage();
+		query.setTargetId(targetId);
+		query.setType(String.valueOf(ItripImgType.IMG_TYPE_HOTEL.getCode()));
+
+
+		List<ItripImage> itripImages = itripImagesTransport.getImgListByQuery(query);
+
+		return ResponseDto.success(itripImages);
 	}
 }

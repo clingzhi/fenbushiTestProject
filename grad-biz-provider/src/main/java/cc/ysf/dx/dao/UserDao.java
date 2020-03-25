@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * >>> 爱旅行 业务模块数据持久层
+ * >>> 爱旅行 业务模块用户数据持久层
  */
 @Repository
 public interface UserDao {

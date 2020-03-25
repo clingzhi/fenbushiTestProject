@@ -1,7 +1,9 @@
 package cc.ysf.dx.dao;
 
+import cc.ysf.dx.pojo.entity.HotelOrder;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 /**
  * >>> 爱旅行-酒店房间订单数据持久层接口
@@ -16,4 +18,26 @@ public interface HotelOrderDao {
 	 * @throws Exception
 	 */
 	Integer findOrderRoomCountByQuery(Map<String, Object> orderQueryMap) throws Exception;
+	/**
+	 * >>> 保存订单
+	 * @param hotelOrder
+	 * @return
+	 * @throws Exception
+	 */
+	int saveOrder(HotelOrder hotelOrder)throws Exception;
+
+	/**
+	 * >>> 根据条件查询订单
+	 * @param query
+	 * @return
+	 * @throws Exception
+	 */
+	List<HotelOrder>   findOrderListByQuery(HotelOrder query)throws Exception;
+	/**
+	 * >>> 查询个人订单列表，并分页显示
+	 * @param query
+	 * @return
+	 * @throws Exception
+	 */
+	List<HotelOrder> findOrderListByPage(Map<String, Object> query)throws Exception;
 }

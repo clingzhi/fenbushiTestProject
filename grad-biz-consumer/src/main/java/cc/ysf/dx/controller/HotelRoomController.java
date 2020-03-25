@@ -1,11 +1,14 @@
 package cc.ysf.dx.controller;
 
 import cc.ysf.dx.base.controller.BaseController;
+import cc.ysf.dx.base.enums.ItripImgType;
 import cc.ysf.dx.base.pojo.vo.ResponseDto;
 import cc.ysf.dx.pojo.entity.HotelRoom;
+import cc.ysf.dx.pojo.entity.ItripImage;
 import cc.ysf.dx.pojo.entity.LabelDic;
 import cc.ysf.dx.pojo.vo.SearchHotelRoomVo;
 import cc.ysf.dx.transport.HotelRoomTransprot;
+import cc.ysf.dx.transport.ItripImagesTransport;
 import cc.ysf.dx.transport.LabelDicTransport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +26,8 @@ public class HotelRoomController extends BaseController {
 	private HotelRoomTransprot hotelRoomTransprot;
 	@Autowired
 	private LabelDicTransport labelDicTransport;
+	@Autowired
+	private ItripImagesTransport itripImagesTransport;
 	/**
 	 * >>> 查询酒店房间列表-此刻可以预定的房间列表
 	 * @param searchHotelRoomVo
@@ -60,5 +65,24 @@ public class HotelRoomController extends BaseController {
 		//床型列表
 		List<LabelDic>  labelDicList = labelDicTransport.getListByQuery(query);
 		return ResponseDto.success(labelDicList);
+	}
+
+	/**
+	 * >>> 查询房型图片 targetId=1
+	 * @param targetId
+	 * @return
+	 * @throws Exception
+	 */
+	@GetMapping("/getimg/{targetId}")
+	public  ResponseDto<Object> quwryHotelImg(@PathVariable("targetId") Long targetId) throws Exception{
+		//封装查询对象
+		ItripImage query = new ItripImage();
+		query.setTargetId(targetId);
+		query.setType(String.valueOf(ItripImgType.IMG_TYPE_HOTEL.getCode()));
+
+
+		List<ItripImage> itripImages = itripImagesTransport.getImgListByQuery(query);
+
+		return ResponseDto.success(itripImages);
 	}
 }

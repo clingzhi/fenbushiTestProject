@@ -19,5 +19,4 @@ public interface SearchHotelDao {
 	 */
 	 List<Hotel> findListByQuery(Hotel query) throws Exception ;
 
-
 }

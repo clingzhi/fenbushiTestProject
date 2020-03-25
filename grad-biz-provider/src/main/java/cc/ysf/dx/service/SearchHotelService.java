@@ -24,4 +24,5 @@ public interface SearchHotelService {
 	 * @throws Exception
 	 */
 	Hotel getHotelById(Long hotelId)throws Exception;
+
 }

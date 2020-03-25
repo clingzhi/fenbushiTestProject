@@ -2,6 +2,8 @@ package cc.ysf.dx.service;
 
 import cc.ysf.dx.pojo.entity.HotelRoom;
 import cc.ysf.dx.pojo.vo.SearchHotelRoomVo;
+import cc.ysf.dx.pojo.vo.ValidateRoomStoreVO;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -16,4 +18,16 @@ public interface HotelRoomService {
 	 * @throws Exception
 	 */
 	List<HotelRoom> queryHotelRoomByHotel(SearchHotelRoomVo searchHotelRoomVo)throws Exception;
+	/**
+	 * >>> 下单时，再次查询临时库存
+	 * @param validateRoomStoreVO
+	 * @return
+	 */
+	int getHotelRoomByDate(ValidateRoomStoreVO validateRoomStoreVO) throws Exception;
+	/**
+	 * >>>  查询就点房间用房间ID查
+	 * @param roomId
+	 * @return
+	 */
+	HotelRoom  getHotelRoomById(Long roomId) throws Exception;
 }

@@ -4,11 +4,12 @@ import cc.ysf.dx.dao.HotelOrderDao;
 import cc.ysf.dx.dao.HotelRoomDao;
 import cc.ysf.dx.pojo.entity.HotelRoom;
 import cc.ysf.dx.pojo.vo.SearchHotelRoomVo;
+import cc.ysf.dx.pojo.vo.ValidateRoomStoreVO;
 import cc.ysf.dx.service.HotelRoomService;
-import org.apache.ibatis.scripting.xmltags.ForEachSqlNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +39,7 @@ public class HotelRoomServiceImpl implements HotelRoomService {
 		//1,根据酒店ID 查询该酒店的所有房间列表
 		HotelRoom query = new HotelRoom();
 		query.setHotelId(searchHotelRoomVo.getHotelId());
-		List<HotelRoom> allHotelRoomList = hotelRoomDao.findHotelRoomListByHotel(query);
+		List<HotelRoom> allHotelRoomList = hotelRoomDao.findHotelRoomList(query);
 
 		if(allHotelRoomList != null && allHotelRoomList.size()>0){
 			//2, 查询临时库存---循环遍历该列表，根据房间id和当前时间查询临时库存数量
@@ -50,7 +51,7 @@ public class HotelRoomServiceImpl implements HotelRoomService {
 				Integer store = hotelRoomDao.queryTempStore(queryMap);
 
 				if(store == null){
-					//如果临时库存不存在 ，就查询总库存数量
+					//3，如果临时库存不存在 ，就查询总库存数量
 					queryMap.put("productId", hotelRoom.getId());
 					store = hotelRoomDao.queryTotalStore(queryMap);
 				}
@@ -69,9 +70,57 @@ public class HotelRoomServiceImpl implements HotelRoomService {
 				}
 			}
 		}
-
-
-
 		return hotelRoomList;
+	}
+
+	/**
+	 * >>> 下单时，再次查询临时库存
+	 * @param validateRoomStoreVO
+	 * @return
+	 */
+	public int getHotelRoomByDate(ValidateRoomStoreVO validateRoomStoreVO) throws Exception {
+		//查询临时库存 根据返回值确定存入数据类型
+		Map<String,Object> queryMap = new HashMap<String, Object>();
+		queryMap.put("roomId", validateRoomStoreVO.getRoomId());
+		queryMap.put("beginDate", validateRoomStoreVO.getCheckOutDate());
+
+		Integer store = hotelRoomDao.queryTempStore(queryMap);
+
+		if(store == null){
+			//再用商品ID（）查询总库存
+			queryMap.put("productId", validateRoomStoreVO.getRoomId());
+			store = hotelRoomDao.queryTotalStore(queryMap);
+		}
+
+		if (queryMap != null && queryMap.size()>0) {
+			//继续排除此时订单中占用的库存
+			Map<String,Object> orderStoreMap = new HashMap<String, Object>();
+			orderStoreMap.put("roomId", validateRoomStoreVO.getRoomId());
+			orderStoreMap.put("startDate", validateRoomStoreVO.getCheckInDate());
+			orderStoreMap.put("endDate",validateRoomStoreVO.getCheckOutDate());
+
+			Integer orderStore = hotelOrderDao.findOrderRoomCountByQuery(orderStoreMap);
+
+			if (store - orderStore >0) {
+				return store-orderStore;
+			}
+		}
+		return  0;
+	}
+
+	/**
+	 * >>>  查询就点房间用房间ID查
+	 * @param roomId
+	 * @return
+	 */
+	public HotelRoom getHotelRoomById(Long roomId)throws Exception {
+		HotelRoom hotelRoom = new HotelRoom();
+		hotelRoom.setId(roomId);
+
+		List<HotelRoom> hotelRoomList = hotelRoomDao.findHotelRoomList(hotelRoom);
+		if (hotelRoomList != null &&  hotelRoomList.size() > 0){
+			return hotelRoomList.get(0);
+		}
+		return new HotelRoom() ;
 	}
 }

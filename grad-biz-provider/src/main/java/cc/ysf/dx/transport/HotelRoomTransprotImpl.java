@@ -2,12 +2,10 @@ package cc.ysf.dx.transport;
 
 import cc.ysf.dx.pojo.entity.HotelRoom;
 import cc.ysf.dx.pojo.vo.SearchHotelRoomVo;
+import cc.ysf.dx.pojo.vo.ValidateRoomStoreVO;
 import cc.ysf.dx.service.HotelRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,4 +28,26 @@ public class HotelRoomTransprotImpl implements HotelRoomTransprot {
 	public List<HotelRoom> queryHotelRoomByHotel(@RequestBody SearchHotelRoomVo searchHotelRoomVo) throws Exception {
 		return hotelRoomService.queryHotelRoomByHotel(searchHotelRoomVo);
 	}
+
+	/**
+	 * >>> 下单时，再次查询临时库存
+	 * @param validateRoomStoreVO
+	 * @return
+	 */
+	@PostMapping("/querystore")
+	public int queryHotelRoomByDate(@RequestBody ValidateRoomStoreVO validateRoomStoreVO) throws Exception {
+		return hotelRoomService.getHotelRoomByDate(validateRoomStoreVO);
+	}
+
+	/**
+	 * >>>  查询就点房间用房间ID查
+	 * @param roomId
+	 * @return
+	 */
+	@PostMapping("/id")
+	public HotelRoom  queryHotelRoomById(@RequestParam Long roomId)throws Exception {
+		return hotelRoomService.getHotelRoomById(roomId);
+	}
+
+
 }

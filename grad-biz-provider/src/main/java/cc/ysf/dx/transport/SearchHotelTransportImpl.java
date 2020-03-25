@@ -38,4 +38,6 @@ public class SearchHotelTransportImpl implements SearchHotelTransport {
 		return searchHotelService.getHotelById(hotelId);
 	}
 
+
+
 }

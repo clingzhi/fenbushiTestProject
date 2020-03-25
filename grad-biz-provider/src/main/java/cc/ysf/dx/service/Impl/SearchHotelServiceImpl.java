@@ -62,4 +62,6 @@ public class SearchHotelServiceImpl implements SearchHotelService {
 		}
 		return new Hotel();
 	}
+
+
 }

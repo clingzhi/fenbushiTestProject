@@ -34,4 +34,6 @@ public interface SearchHotelTransport {
 	 */
 	@PostMapping("/id")
 	Hotel getHotelById(@RequestParam Long hotelId)throws  Exception;
+
+
 }

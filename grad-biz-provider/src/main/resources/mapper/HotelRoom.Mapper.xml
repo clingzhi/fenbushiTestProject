@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cc.ysf.dx.dao.HotelRoomDao">
-	<select id="findHotelRoomListByHotel" parameterType="HotelRoom" resultMap="hotelRoomMap">
+	<select id="findHotelRoomList" parameterType="HotelRoom" resultMap="hotelRoomMap">
 		select
 			ihr.id,
 			ihr.hotelId,
@@ -44,6 +44,7 @@
 		<where>
 			<trim suffixOverrides="and">
 				<if test="roomId != null">ihts.roomId=#{roomId} and </if>
+				<if test="hotelId != null">ihts.hotelId=#{hotelId} and </if>
 				<if test="beginDate != null">
 					date_format(ihts.recordDate, '%Y-%m-%d 00:00:00')=date_format(#{beginDate}, '%Y-%m-%d 00:00:00') and
 				</if>
