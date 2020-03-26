@@ -60,4 +60,12 @@ public interface HotelOrderTransport {
 	 */
 	@PostMapping("/page")
 	Page<HotelOrder> getHotelOrderByPage(@RequestBody SearchOrderVO searchOrderVO)throws Exception;
+	/**
+	 * >>> 支付完成，修改订单状态
+	 * @param order
+	 * @return
+	 * @throws Exception
+	 */
+	@PostMapping("/updateOrderStatus")
+	boolean updateOrderStatus(@RequestBody HotelOrder order)throws Exception;
 }

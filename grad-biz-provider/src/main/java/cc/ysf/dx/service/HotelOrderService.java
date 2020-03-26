@@ -43,4 +43,11 @@ public interface HotelOrderService {
 	 * @throws Exception
 	 */
 	Page<HotelOrder> getHotelOrderByPage(SearchOrderVO searchOrderVO)throws Exception;
+	/**
+	 * >>> 支付完成，修改订单状态
+	 * @param order
+	 * @return
+	 * @throws Exception
+	 */
+	boolean updateOrderStatus(HotelOrder order)throws Exception;
 }

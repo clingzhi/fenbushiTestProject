@@ -40,4 +40,11 @@ public interface HotelOrderDao {
 	 * @throws Exception
 	 */
 	List<HotelOrder> findOrderListByPage(Map<String, Object> query)throws Exception;
+	/**
+	 * >>> 支付完成，修改订单状态
+	 * @param order
+	 * @return
+	 * @throws Exception
+	 */
+	int updateOrderStatus(HotelOrder order)throws Exception;
 }

@@ -70,4 +70,15 @@ public class HotelOrderTransportImpl implements HotelOrderTransport {
 	public Page<HotelOrder> getHotelOrderByPage(@RequestBody SearchOrderVO searchOrderVO) throws Exception {
 		return hotelOrderService.getHotelOrderByPage(searchOrderVO);
 	}
+
+	/**
+	 * >>> 支付完成，修改订单状态
+	 * @param order
+	 * @return
+	 * @throws Exception
+	 */
+	@PostMapping("/updateOrderStatus")
+	public boolean updateOrderStatus(HotelOrder order) throws Exception {
+		return hotelOrderService.updateOrderStatus(order);
+	}
 }

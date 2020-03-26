@@ -156,6 +156,15 @@
 		</where>
 	</select>
 
+	<update id="updateOrderStatus" parameterType="HotelOrder" >
+		UPDATE
+			itrip_hotel_order
+		set
+			orderStatus=#{orderStatus}
+		where
+			id=#{id}
+	</update>
+
 	<resultMap id="HotelOrderMap" type="HotelOrder">
 		<id property="id" javaType="java.lang.Long" column="id"/>
 		<result property="userId" javaType="java.lang.Long" column="userId"/>

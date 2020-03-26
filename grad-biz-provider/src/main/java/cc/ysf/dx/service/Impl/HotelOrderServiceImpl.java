@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.net.MalformedURLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -190,5 +191,22 @@ public class HotelOrderServiceImpl implements HotelOrderService {
 		page.setRows(orderList);//List集合
 
 		return page;
+	}
+
+	/**
+	 * >>> 支付完成，修改订单状态
+	 * @param order
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean updateOrderStatus(HotelOrder order) throws Exception {
+		//设定支付时间
+		order.setCheckInDate(new Date());
+		//进行更新
+		int flog = hotelOrderDao.updateOrderStatus(order);
+		if (flog>0){
+			return true;
+		}
+		return false;
 	}
 }

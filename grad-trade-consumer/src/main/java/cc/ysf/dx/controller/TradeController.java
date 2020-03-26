@@ -56,9 +56,9 @@ private HotelRoomTransprot hotelRoomTransprot;
 		//创建API对应的request
 		AlipayTradePagePayRequest alipayRequest =  new  AlipayTradePagePayRequest();
 		//支付完成返回地址
-		alipayRequest.setReturnUrl( "http://localhost/itrip" );
+		alipayRequest.setReturnUrl("http://itrip.project.bdqn.cn/trade/api/notify/"+hotelOrder.getId());
 		//在公共参数中设置回跳和通知地址
-		alipayRequest.setNotifyUrl( "http://itrip.project.bdqn.cn/trade/api/notify/"+hotelOrder.getId() );
+		alipayRequest.setNotifyUrl( "http://localhost/itrip");
 		//填充业务参数
 			alipayRequest.setBizContent( "{"  +
 					"    \"out_trade_no\":\""+orderNo+"\","  +
@@ -85,6 +85,12 @@ private HotelRoomTransprot hotelRoomTransprot;
 		}
 	}
 
+	/**
+	 * >>> 支付完成，修改订单状态
+	 * @param orderId
+	 * @return
+	 * @throws Exception
+	 */
 	@GetMapping("/notify/{orderId}")
 	public ResponseDto<Object> updateHotelOrder(@PathVariable("orderId") Long orderId) throws Exception{
 		//修改订单状态
@@ -92,7 +98,12 @@ private HotelRoomTransprot hotelRoomTransprot;
 		upOrder.setId(orderId);
 
 		HotelOrder order = hotelOrderTransport.queryOrderById(orderId);
-		order.setOrderStatus(OrderStatusEnum.ORDER_STATUS_SUCCESS.getCode());
-		return ResponseDto.success("支付成功");
+		order.setOrderStatus(OrderStatusEnum.ORDER_STATUS_PAYED.getCode());
+
+		boolean flog = hotelOrderTransport.updateOrderStatus(order);
+		if (flog){
+			return ResponseDto.success("支付成功");
+		}
+		return ResponseDto.success("支付失败");
 	}
 }

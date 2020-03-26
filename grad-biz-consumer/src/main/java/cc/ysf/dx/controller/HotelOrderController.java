@@ -102,7 +102,6 @@ public class HotelOrderController extends BaseController {
 			Long out = hotelOrder.getCheckOutDate().getTime();
 			Long days =out-in;
 			days = days/1000/3600/24;
-			System.out.println(days);
 			hotelOrder.setBookingDays(Math.toIntExact(days));
 
 			//计算订单价格
