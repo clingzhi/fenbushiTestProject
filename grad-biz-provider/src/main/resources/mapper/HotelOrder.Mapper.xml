@@ -114,33 +114,33 @@
 
 	<select id="findOrderListByPage" parameterType="java.util.Map" resultMap="HotelOrderMap">
 		select
-		iho.id,
-		iho.userId,
-		iho.orderType,
-		iho.orderNo,
-		iho.tradeNo,
-		iho.hotelId,
-		iho.hotelName,
-		iho.roomId,
-		iho.count,
-		iho.bookingDays,
-		iho.checkInDate,
-		iho.checkOutDate,
-		iho.orderStatus,
-		iho.payAmount,
-		iho.payType,
-		iho.noticePhone,
-		iho.noticeEmail,
-		iho.specialRequirement,
-		iho.isNeedInvoice,
-		iho.invoiceType,
-		iho.invoiceHead,
-		iho.linkUserName,
-		iho.bookType,
-		iho.creationDate,
-		iho.createdBy,
-		iho.modifyDate,
-		iho.modifiedBy
+			iho.id,
+			iho.userId,
+			iho.orderType,
+			iho.orderNo,
+			iho.tradeNo,
+			iho.hotelId,
+			iho.hotelName,
+			iho.roomId,
+			iho.count,
+			iho.bookingDays,
+			iho.checkInDate,
+			iho.checkOutDate,
+			iho.orderStatus,
+			iho.payAmount,
+			iho.payType,
+			iho.noticePhone,
+			iho.noticeEmail,
+			iho.specialRequirement,
+			iho.isNeedInvoice,
+			iho.invoiceType,
+			iho.invoiceHead,
+			iho.linkUserName,
+			iho.bookType,
+			iho.creationDate,
+			iho.createdBy,
+			iho.modifyDate,
+			iho.modifiedBy
 		from
 		itrip_hotel_order iho join itrip_user iu on iho.userId=iu.id
 		<where>
@@ -154,6 +154,7 @@
 				<if test="orderType != null and orderType != -1">iho.orderType=#{orderType} and</if>
 			</trim>
 		</where>
+		order by iho.checkInDate desc
 	</select>
 
 	<update id="updateOrderStatus" parameterType="HotelOrder" >

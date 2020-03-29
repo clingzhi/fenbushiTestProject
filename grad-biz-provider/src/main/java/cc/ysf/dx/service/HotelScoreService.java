@@ -1,6 +1,7 @@
 package cc.ysf.dx.service;
 
 import cc.ysf.dx.pojo.entity.ItripComment;
+import cc.ysf.dx.pojo.vo.ItripListCommentVO;
 import cc.ysf.dx.pojo.vo.ItripScoreCommentVO;
 import cc.ysf.dx.pojo.vo.ItripSearchCommentVO;
 import cc.ysf.dx.pojo.vo.Page;
@@ -23,10 +24,19 @@ public interface HotelScoreService {
 	 * @return
 	 */
 	Integer getCommentCountByMap(Map<String, Object> param) throws Exception;
+
+
 	/**
 	 * >>> 查询评论内容
 	 * @return
 	 * @throws Exception
 	 */
-	Page<ItripComment> getContent(ItripSearchCommentVO itripSearchCommentVO)throws Exception;
+	Page<ItripListCommentVO> getContent(Map<String, Object> paramMap, Integer pageNo, Integer pageSize)throws Exception;
+	/**
+	 * >>> 添加评论
+	 * @param itripComment
+	 * @return
+	 * @throws Exception
+	 */
+	Boolean addComment(ItripComment itripComment)throws Exception;
 }

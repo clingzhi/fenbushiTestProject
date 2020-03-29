@@ -2,6 +2,7 @@ package cc.ysf.dx.dao;
 
 
 import cc.ysf.dx.pojo.entity.UserLinkUser;
+import cc.ysf.dx.pojo.vo.ItripAddUserLinkUserVO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,4 +18,16 @@ public interface UserLinkUserDao {
 	 * @return
 	 */
 	List<UserLinkUser> findUserLinkUserList(UserLinkUser query) throws Exception;
+	/**
+	 * >>> 添加新客户
+	 * @return
+	 * @throws Exception
+	 */
+	Boolean saveLinkUser(UserLinkUser userLinkUser)throws Exception;
+	/**
+	 * >>> 删除常用联系人
+	 * @return
+	 * @throws Exception
+	 */
+	Boolean delLinkUser(UserLinkUser userLinkUser)throws Exception;
 }

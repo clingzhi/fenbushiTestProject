@@ -154,7 +154,7 @@ public class HotelOrderServiceImpl implements HotelOrderService {
 	 * @throws Exception
 	 */
 	public Page<HotelOrder> getHotelOrderByPage(SearchOrderVO searchOrderVO) throws Exception {
-		//空字符判断
+		 //空字符判断
 		if("".equals(searchOrderVO.getOrderNo())){
 			searchOrderVO.setOrderNo(null);
 		}
@@ -178,19 +178,29 @@ public class HotelOrderServiceImpl implements HotelOrderService {
 		query.put("orderStatus",searchOrderVO.getOrderStatus());
 		query.put("orderType",searchOrderVO.getOrderType());
 		query.put("userCode",searchOrderVO.getUserCode());
+		if (searchOrderVO.getPageNo() != null && searchOrderVO.getPageSize() != null) {
+			PageHelper.startPage(searchOrderVO.getPageNo(), searchOrderVO.getPageSize());
+			List<HotelOrder> orderList = hotelOrderDao.findOrderListByPage(query);
+			PageInfo<HotelOrder> pageInfo = new PageInfo<>(orderList);
+			Page page =new Page();
+			page.setCurPage(pageInfo.getPageNum());//页码
+			page.setTotal((int) pageInfo.getTotal()); //总记录
+			page.setPageSize(pageInfo.getPageSize());
+			page.setBeginPos(pageInfo.getStartRow());// 结果集中数据的起始位置  .
+			page.setRows(orderList);//List集合
 
-		PageHelper.startPage(searchOrderVO.getPageNo(), searchOrderVO.getPageSize());
-		List<HotelOrder> orderList = hotelOrderDao.findOrderListByPage(query);
-
-		PageInfo<HotelOrder> pageInfo = new PageInfo<>(orderList);
-		Page page =new Page();
-		page.setCurPage(pageInfo.getPageNum());//页码
-		page.setTotal((int) pageInfo.getTotal()); //总记录
-		page.setPageSize(pageInfo.getPageSize());
-		page.setBeginPos(pageInfo.getStartRow());// 结果集中数据的起始位置  .
-		page.setRows(orderList);//List集合
-
-		return page;
+			return page;
+		}else {
+			List<HotelOrder> orderList = hotelOrderDao.findOrderListByPage(query);
+			PageInfo<HotelOrder> pageInfo = new PageInfo<>(orderList);
+			Page page =new Page();
+			page.setCurPage(pageInfo.getPageNum());//页码
+			page.setTotal((int) pageInfo.getTotal()); //总记录
+			page.setPageSize(pageInfo.getPageSize());
+			page.setBeginPos(pageInfo.getStartRow());// 结果集中数据的起始位置  .
+			page.setRows(orderList);//List集合
+			return page;
+		}
 	}
 
 	/**

@@ -17,25 +17,25 @@
 		</where>
 	</select>
 
-	<select id="findCommentContent" parameterType="java.util.Map" resultMap="ItripCommentMap">
-		select
-			ic.id,
-			ic.hotelId,
-			ic.productId,
-			ic.orderId,
-			ic.productType,
-			ic.content,
-			ic.userId,
-			ic.isHavingImg,
-			ic.positionScore,
-			ic.facilitiesScore,
-			ic.serviceScore,
-			ic.hygieneScore,
-			ic.score,
-			ic.tripMode,
-			ic.isOk
-		from
-			itrip_comment ic
+	<select id="findCommentContent" parameterType="java.util.Map" resultType="cc.ysf.dx.pojo.vo.ItripListCommentVO">
+		SELECT
+			ic.id as id,
+			iu.userCode as userCode,
+			ih.hotelLevel as hotelLevel,
+			iho.checkInDate as checkInDate,
+			ihr.roomTitle as roomTitle,
+			ild.name as tripModeName,
+			ic.content as content,
+			ic.creationDate as creationDate,
+			ic.score as score,
+			ic.isHavingImg as isHavingImg,
+			ic.isOk as isOk
+		FROM
+			itrip_comment ic left JOIN itrip_user iu on ic.userId=iu.id
+			left join itrip_hotel ih on ic.hotelId=ih.id
+			left join itrip_hotel_order iho on ic.orderId=iho.id
+			left join itrip_hotel_room ihr on iho.roomId=ihr.id or ic.productId=ihr.id
+			left join itrip_label_dic ild on ic.tripMode=ild.id
 		<where>
 			<trim suffixOverrides="and">
 				<if test="hotelId != null">ic.hotelId=#{hotelId} and</if>
@@ -63,4 +63,51 @@
 		<result property="tripMode" javaType="java.lang.String" column="tripMode"/>
 		<result property="isOk" javaType="java.lang.Integer" column="isOk"/>
 	</resultMap>
+
+	<insert id="addComment" parameterType="ItripComment" >
+		INSERT INTO
+		itrip_comment (
+		<trim suffixOverrides=",">
+			<if test="hotelId != null">hotelId ,</if>
+			<if test="productId != null">productId ,</if>
+			<if test="orderId != null">orderId ,</if>
+			<if test="productType != null">productType ,</if>
+			<if test="content != null">content ,</if>
+			<if test="userId != null">userId ,</if>
+			<if test="isHavingImg != null">isHavingImg ,</if>
+			<if test="positionScore != null">positionScore ,</if>
+			<if test="facilitiesScore != null">facilitiesScore ,</if>
+			<if test="serviceScore != null">serviceScore ,</if>
+			<if test="hygieneScore != null">hygieneScore ,</if>
+			<if test="score != null">score ,</if>
+			<if test="tripMode != null">tripMode ,</if>
+			<if test="isOk != null">isOk ,</if>
+			<if test="creationDate != null">creationDate ,</if>
+			<if test="createdBy != null">createdBy ,</if>
+			<if test="modifyDate != null">modifyDate ,</if>
+			<if test="modifiedBy != null">modifiedBy ,</if>
+		</trim>
+		)VALUES(
+		<trim suffixOverrides=",">
+			<if test="hotelId != null">#{hotelId} ,</if>
+			<if test="productId != null">#{productId} ,</if>
+			<if test="orderId != null">#{orderId} ,</if>
+			<if test="productType != null">#{productType} ,</if>
+			<if test="content != null">#{content} ,</if>
+			<if test="userId != null">#{userId} ,</if>
+			<if test="isHavingImg != null">#{isHavingImg} ,</if>
+			<if test="positionScore != null">#{positionScore} ,</if>
+			<if test="facilitiesScore != null">#{facilitiesScore} ,</if>
+			<if test="serviceScore != null">#{serviceScore} ,</if>
+			<if test="hygieneScore != null">#{hygieneScore} ,</if>
+			<if test="score != null">#{score} ,</if>
+			<if test="tripMode != null">#{tripMode} ,</if>
+			<if test="isOk != null">#{isOk} ,</if>
+			<if test="creationDate != null">#{creationDate} ,</if>
+			<if test="createdBy != null">#{createdBy} ,</if>
+			<if test="modifyDate != null">#{modifyDate} ,</if>
+			<if test="modifiedBy != null">#{modifiedBy} ,</if>
+		</trim>
+		)
+	</insert>
 </mapper>

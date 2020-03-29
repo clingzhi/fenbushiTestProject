@@ -1,6 +1,7 @@
 package cc.ysf.dx.dao;
 
 import cc.ysf.dx.pojo.entity.ItripComment;
+import cc.ysf.dx.pojo.vo.ItripListCommentVO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,4 +26,11 @@ public interface HotelCommentDao {
 	 * @throws Exception
 	 */
 	List<ItripComment> findCommentContent(Map<String, Object> paramMap)throws Exception;
+	/**
+	 * >>> 添加评论
+	 * @param itripComment
+	 * @return
+	 * @throws Exception
+	 */
+	Boolean addComment(ItripComment itripComment)throws Exception;
 }

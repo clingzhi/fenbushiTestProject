@@ -1,6 +1,7 @@
 package cc.ysf.dx.service;
 
 import cc.ysf.dx.pojo.entity.UserLinkUser;
+import cc.ysf.dx.pojo.vo.ItripAddUserLinkUserVO;
 
 import java.util.List;
 
@@ -14,4 +15,16 @@ public interface UserLinkUserService {
 	 * @return
 	 */
 	List<UserLinkUser> getUserLinkUserList(UserLinkUser query) throws Exception;
+	/**
+	 * >>> 添加新客户
+	 * @return
+	 * @throws Exception
+	 */
+	Boolean saveLinkUser(UserLinkUser userLinkUser)throws Exception;
+	/**
+	 * >>> 删除常用联系人
+	 * @return
+	 * @throws Exception
+	 */
+	Boolean delLinkUser(String ids)throws Exception;
 }

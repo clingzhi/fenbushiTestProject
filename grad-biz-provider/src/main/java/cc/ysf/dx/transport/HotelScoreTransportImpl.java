@@ -1,15 +1,13 @@
 package cc.ysf.dx.transport;
 
 import cc.ysf.dx.pojo.entity.ItripComment;
+import cc.ysf.dx.pojo.vo.ItripListCommentVO;
 import cc.ysf.dx.pojo.vo.ItripScoreCommentVO;
 import cc.ysf.dx.pojo.vo.ItripSearchCommentVO;
 import cc.ysf.dx.pojo.vo.Page;
 import cc.ysf.dx.service.HotelScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -48,7 +46,19 @@ public class HotelScoreTransportImpl implements HotelScoreTransport {
 	 * @throws Exception
 	 */
 	@PostMapping("/getcontent")
-	public Page<ItripComment> getContent(@RequestBody ItripSearchCommentVO itripSearchCommentVO) throws Exception {
-		return hotelScoreService.getContent(itripSearchCommentVO);
+	public Page<ItripListCommentVO> getContent(@RequestBody Map<String,Object> paramMap,@RequestParam Integer pageNo,@RequestParam Integer pageSize) throws Exception {
+		return hotelScoreService.getContent(paramMap,pageNo,pageSize);
 	}
+
+	/**
+	 * >>> 添加评论
+	 * @param itripComment
+	 * @return
+	 * @throws Exception
+	 */
+	@PostMapping("/add")
+	public Boolean addComment(@RequestBody ItripComment itripComment) throws Exception {
+		return hotelScoreService.addComment(itripComment);
+	}
+
 }

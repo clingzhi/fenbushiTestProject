@@ -23,18 +23,59 @@
 				<if test="userCode != null">iu.userCode=#{userCode} and </if>
 			</trim>
 		</where>
+		group by iulu.id desc
 	</select>
+
+	<insert id="saveLinkUser" parameterType="UserLinkUser">
+		INSERT INTO
+			itrip_user_link_user(
+			<trim suffixOverrides=",">
+				<if test="linkUserName != null">linkUserName ,</if>
+				<if test="linkIdCard != null">linkIdCard ,</if>
+				<if test="linkPhone != null">linkPhone ,</if>
+				<if test="userId != null">userId ,</if>
+				<if test="creationDate != null">creationDate ,</if>
+				<if test="createdBy != null">createdBy ,</if>
+				<if test="modifyDate != null">modifyDate ,</if>
+				<if test="modifiedBy != null">modifiedBy ,</if>
+				<if test="linkIdCardType != null">linkIdCardType ,</if>
+
+			</trim>
+			)VALUES(
+			<trim suffixOverrides=",">
+				<if test="linkUserName != null">#{linkUserName} ,</if>
+				<if test="linkIdCard != null">#{linkIdCard} ,</if>
+				<if test="linkPhone != null">#{linkPhone} ,</if>
+				<if test="userId != null">#{userId} ,</if>
+				<if test="creationDate != null">#{creationDate} ,</if>
+				<if test="createdBy != null">#{createdBy} ,</if>
+				<if test="modifyDate != null">#{modifyDate} ,</if>
+				<if test="modifiedBy != null">#{modifiedBy} ,</if>
+				<if test="linkIdCardType != null">#{linkIdCardType} ,</if>
+			</trim>
+			)
+	</insert>
 
 	<resultMap id="userLinkUserMap" type="UserLinkUser">
 		<id property="id" javaType="java.lang.Long" column="id"/>
 		<result property="linkUserName" javaType="java.lang.String" column="linkUserName"/>
 		<result property="linkIdCard" javaType="java.lang.String" column="linkIdCard"/>
 		<result property="linkPhone" javaType="java.lang.String" column="linkPhone"/>
-		<result property="userId" javaType="java.lang.Integer" column="userId"/>
+		<result property="userId" javaType="java.lang.Long" column="userId"/>
 		<result property="creationDate" javaType="java.util.Date" column="creationDate"/>
 		<result property="createdBy" javaType="java.lang.Long" column="createdBy"/>
 		<result property="modifyDate" javaType="java.util.Date" column="modifyDate"/>
 		<result property="modifiedBy" javaType="java.lang.Long" column="modifiedBy"/>
 		<result property="linkIdCardType" javaType="java.lang.Integer" column="linkIdCardType"/>
 	</resultMap>
+
+	<delete id="delLinkUser" parameterType="UserLinkUser" >
+		delete from
+			itrip_user_link_user
+		WHERE
+			<trim suffixOverrides="and">
+				<if test="id != null">id=#{id} and</if>
+				<if test="userId != null">userId=#{userId} and</if>
+			</trim>
+	</delete>
 </mapper>

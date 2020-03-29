@@ -21,6 +21,7 @@ public class ItripListCommentVO implements Serializable {
 	private Integer score;//综合评分
 	private Integer isHavingImg;//是否有评论图片
 
+
 	public Long getId() {
 		return id;
 	}

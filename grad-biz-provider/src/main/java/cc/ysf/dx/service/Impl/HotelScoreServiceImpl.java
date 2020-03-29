@@ -1,23 +1,26 @@
 package cc.ysf.dx.service.Impl;
 
 
-import cc.ysf.dx.dao.HotelCommentDao;
-import cc.ysf.dx.dao.HotelScoreDao;
+import cc.ysf.dx.dao.*;
+import cc.ysf.dx.pojo.entity.Hotel;
+import cc.ysf.dx.pojo.entity.HotelOrder;
+import cc.ysf.dx.pojo.entity.HotelRoom;
 import cc.ysf.dx.pojo.entity.ItripComment;
+import cc.ysf.dx.pojo.vo.ItripListCommentVO;
 import cc.ysf.dx.pojo.vo.ItripScoreCommentVO;
 import cc.ysf.dx.pojo.vo.ItripSearchCommentVO;
 import cc.ysf.dx.pojo.vo.Page;
 import cc.ysf.dx.service.HotelScoreService;
+import cc.ysf.dx.transport.HotelOrderTransport;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service("hotelScoreService")
 @Transactional
@@ -26,6 +29,12 @@ public class HotelScoreServiceImpl implements HotelScoreService {
 	private HotelScoreDao hotelScoreDao;
 	@Autowired
 	private HotelCommentDao hotelCommentDao;
+	@Autowired
+	private SearchHotelDao searchHotelDao;
+	@Autowired
+	private HotelOrderDao hotelOrderDao;
+	@Autowired
+	private HotelRoomDao hotelRoomDao;
 	/**
 	 * >>> 根据条件查询酒店评分
 	 * @param query
@@ -54,13 +63,8 @@ public class HotelScoreServiceImpl implements HotelScoreService {
 	 * @return
 	 */
 	public Integer getCommentCountByMap(Map<String, Object> param) throws Exception {
-		try{
 			Integer store = hotelCommentDao.findCommentCount(param);
 			return store;
-		}catch (Exception e){
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 	/**
@@ -68,39 +72,88 @@ public class HotelScoreServiceImpl implements HotelScoreService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Page<ItripComment> getContent(ItripSearchCommentVO itripSearchCommentVO) throws Exception {
-		//根据查询视图创建查询集合
-		Map<String,Object> paramMap = new HashMap<String, Object>();
-			paramMap.put("hotelId",itripSearchCommentVO.getHotelId());
-			if(itripSearchCommentVO.getIsHavingImg() != -1){
-				paramMap.put("isHavingImg",itripSearchCommentVO.getIsHavingImg());
-			}
-			if (itripSearchCommentVO.getIsOk() != -1) {
-				paramMap.put("isOk", itripSearchCommentVO.getIsOk());
-			}
-			paramMap.put("start", (itripSearchCommentVO.getPageNo() - 1) * itripSearchCommentVO.getPageSize());
-			paramMap.put("size", itripSearchCommentVO.getPageSize());
+	public Page<ItripListCommentVO> getContent(Map<String, Object> paramMap,
+	                                           Integer pageNo, Integer pageSize) throws Exception {
+		paramMap.put("start", (pageNo - 1) * pageSize);
+		paramMap.put("size", pageSize);
 		//引入PQGEHELP
-		PageHelper.startPage(itripSearchCommentVO.getPageNo(), itripSearchCommentVO.getPageSize());
-		// 获取分页列表
+		PageHelper.startPage(pageNo,pageSize);
+		// 获取评论内容列表
 		List<ItripComment> commentList = hotelCommentDao.findCommentContent(paramMap);
+
 		/*
-		// 获得总条数
-		paramMap.remove("start");
-		paramMap.remove("size");
-		Integer total =  commentList.size();
-		// 封装分页对象
-		Page<ItripComment> page = new Page<ItripComment>(itripSearchCommentVO.getPageNo(), itripSearchCommentVO.getPageSize(), total);
-		page.setRows(commentList);
-		*/
-		PageInfo<ItripComment> pageInfo = new PageInfo<>(commentList);
+		//创建评论返回集合
+		List<ItripListCommentVO> itripListCommentVOS = new ArrayList<>();
+
+		for (ItripComment itripCommens: commentList) {
+			//创建返回的VO对象
+			ItripListCommentVO itripListCommentVO = new ItripListCommentVO();
+			//存入酒店星级，酒店特色类型，入住时间等信息
+			itripListCommentVO.setId(itripCommens.getId());
+				//创建酒店对象 查找酒店等级
+				Hotel queryHotel = new Hotel();
+				queryHotel.setId(itripCommens.getHotelId());
+				List<Hotel> hotels = searchHotelDao.findListByQuery(queryHotel);
+					for (Hotel hotel: hotels) {
+						itripListCommentVO.setHotelLevel(hotel.getHotelLevel());
+					}
+				//创建订单对象 查找订单入住时间
+				HotelOrder queryOrder = new HotelOrder();
+				queryOrder.setId(itripCommens.getOrderId());
+				List<HotelOrder> hotelOrders = hotelOrderDao.findOrderListByQuery(queryOrder);
+					for (HotelOrder hotelOrder:hotelOrders) {
+						itripListCommentVO.setCheckInDate(hotelOrder.getCheckInDate());
+						itripListCommentVO.setUserCode(hotelOrder.getLinkUserName());//评论的用户名字
+					}
+				//创建房间对象 查找房间类型
+				HotelRoom queryRoom = new HotelRoom();
+				queryRoom.setId(itripCommens.getProductId());
+				List<HotelRoom> rooms = hotelRoomDao.findHotelRoomList(queryRoom);
+					for (HotelRoom hotelRoom:rooms) {
+						itripListCommentVO.setRoomTitle(hotelRoom.getRoomTitle());
+					}
+			itripListCommentVO.setTripModeName(itripCommens.getTripMode());
+			itripListCommentVO.setContent(itripCommens.getContent());
+			itripListCommentVO.setCreationDate(itripCommens.getCreationDate());
+			itripListCommentVO.setScore(itripCommens.getScore());
+			itripListCommentVO.setIsHavingImg(itripCommens.getIsHavingImg());
+			//将返回对象添加进返回集合
+			itripListCommentVOS.add(itripListCommentVO);
+		}*/
+
+		PageInfo<ItripComment> pageInfo = new PageInfo<ItripComment>(commentList);
 		Page page = new Page();
 		page.setCurPage(pageInfo.getPageNum());
 		page.setPageSize(pageInfo.getPageSize());
 		page.setBeginPos(pageInfo.getStartRow());
 		page.setTotal((int) pageInfo.getTotal());
 		page.setRows(commentList);
+
 		return page;
 
+		}
+
+	/**
+	 * >>> 添加评论
+	 * @param itripComment
+	 * @return
+	 * @throws Exception
+	 */
+	public Boolean addComment(ItripComment itripComment) throws Exception {
+		HotelOrder query = new HotelOrder();
+		query.setId(itripComment.getOrderId());
+		List<HotelOrder> orders = hotelOrderDao.findOrderListByQuery(query);
+
+		itripComment.setUserId(orders.get(0).getUserId());
+		itripComment.setCreationDate(new Date());
+		Integer ALLscore = itripComment.getFacilitiesScore()+itripComment.getHygieneScore()+
+				itripComment.getPositionScore()+itripComment.getServiceScore();
+		itripComment.setScore(ALLscore/4);
+
+		Boolean flog = hotelCommentDao.addComment(itripComment);
+		if (flog){
+			return true;
+		}
+		return false;
 	}
 }

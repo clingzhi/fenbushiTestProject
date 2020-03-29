@@ -1,6 +1,7 @@
 package cc.ysf.dx.transport;
 
 import cc.ysf.dx.pojo.entity.ItripComment;
+import cc.ysf.dx.pojo.vo.ItripListCommentVO;
 import cc.ysf.dx.pojo.vo.ItripScoreCommentVO;
 import cc.ysf.dx.pojo.vo.ItripSearchCommentVO;
 import cc.ysf.dx.pojo.vo.Page;
@@ -8,6 +9,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 
@@ -32,11 +34,21 @@ public interface HotelScoreTransport {
 	 */
 	@PostMapping("/getcount")
 	Integer getCommentCountByMap(@RequestBody Map<String, Object> param) throws Exception;
+
+
 	/**
 	 * >>> 查询评论内容
 	 * @return
 	 * @throws Exception
 	 */
 	@PostMapping("/getcontent")
-	Page<ItripComment> getContent(@RequestBody ItripSearchCommentVO itripSearchCommentVO) throws Exception;
+	Page<ItripListCommentVO> getContent(@RequestBody Map<String,Object> paramMap,@RequestParam Integer pageNo,@RequestParam Integer pageSize)throws Exception;
+	/**
+	 * >>> 添加评论
+	 * @param itripComment
+	 * @return
+	 * @throws Exception
+	 */
+	@PostMapping("/add")
+	Boolean addComment(@RequestBody ItripComment itripComment)throws Exception;
 }
