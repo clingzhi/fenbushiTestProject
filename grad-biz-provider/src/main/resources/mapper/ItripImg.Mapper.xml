@@ -36,4 +36,22 @@
 		<result property="modifiedBy" javaType="java.lang.Long" column="modifiedBy"/>
 	</resultMap>
 
+	<insert id="saveImg" parameterType="ItripImage">
+		INSERT into
+			itrip_image(
+				<trim suffixOverrides=",">
+					<if test="type != null">type ,</if>
+					<if test="targetId != null">targetId ,</if>
+					<if test="imgUrl != null">imgUrl ,</if>
+					<if test="creationDate != null">creationDate ,</if>
+				</trim>
+			)VALUES(
+				<trim suffixOverrides=",">
+					<if test="type != null">#{type} ,</if>
+					<if test="targetId != null">#{targetId} ,</if>
+					<if test="imgUrl != null">#{imgUrl} ,</if>
+					<if test="creationDate != null">#{creationDate} ,</if>
+				</trim>
+			)
+	</insert>
 </mapper>

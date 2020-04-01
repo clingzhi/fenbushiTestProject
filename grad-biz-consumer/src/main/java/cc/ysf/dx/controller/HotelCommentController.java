@@ -3,16 +3,19 @@ package cc.ysf.dx.controller;
 import cc.ysf.dx.base.controller.BaseController;
 import cc.ysf.dx.base.enums.ItripImgType;
 import cc.ysf.dx.base.pojo.vo.ResponseDto;
+import cc.ysf.dx.pojo.entity.HotelOrder;
 import cc.ysf.dx.pojo.entity.ItripComment;
 import cc.ysf.dx.pojo.entity.ItripImage;
+import cc.ysf.dx.pojo.entity.LabelDic;
 import cc.ysf.dx.pojo.vo.*;
+import cc.ysf.dx.transport.HotelOrderTransport;
 import cc.ysf.dx.transport.HotelScoreTransport;
 import cc.ysf.dx.transport.ItripImagesTransport;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +28,8 @@ public class HotelCommentController extends BaseController {
 	private HotelScoreTransport hotelScoreTransport;
 	@Autowired
 	private ItripImagesTransport itripImagesTransport;
+	@Autowired
+	private HotelOrderTransport hotelOrderTransport;
 
 
 	/**
@@ -155,9 +160,43 @@ public class HotelCommentController extends BaseController {
 		BeanUtils.copyProperties(itripAddCommentVO, itripComment);
 
 		Boolean flog = hotelScoreTransport.addComment(itripComment);
+
+
+		if (itripAddCommentVO.getItripImages() != null){
+			//将图片访问地址保存到数据库，创建保存对象
+			ItripImage[] save = itripAddCommentVO.getItripImages();
+			for (ItripImage itripImages : save) {
+				itripImages.setType(String.valueOf(ItripImgType.IMG_TYPE_COMMENT.getCode()));
+					//关联TargetId为评论ID,获取评论ID
+					 ItripComment itripComments = hotelScoreTransport.getComment(itripAddCommentVO.getOrderId());
+				itripImages.setTargetId(itripComments.getId());
+				itripImages.setImgUrl( itripImages.getImgUrl());
+				itripImages.setCreationDate(new Date());
+				boolean saves = hotelScoreTransport.saveImg(save[0]);
+				return ResponseDto.success(saves);
+			}
+		}
+
+
+
 		if (flog) {
 			return ResponseDto.success("评论成功！");
 		}
 		return ResponseDto.success("操作失败！");
+	}
+
+	/**
+	 * >>> 获取出游类型
+	 * @return
+	 * @throws Exception
+	 */
+	@GetMapping("/gettraveltype")
+	public ResponseDto<Object> getTravelType()throws Exception{
+		//创建查询对象
+		LabelDic query = new LabelDic();
+		query.setParentId(107L);
+		List<LabelDic> labelDics = hotelScoreTransport.getTravelType(query);
+
+		return ResponseDto.success(labelDics);
 	}
 }

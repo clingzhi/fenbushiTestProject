@@ -10,6 +10,7 @@ import cc.ysf.dx.transport.UserTransport;
 import cc.ysf.dx.util.JWTUtil;
 import cc.ysf.dx.util.MD5Util;
 import cc.ysf.dx.util.RegValidationUtil;
+import io.swagger.annotations.*;
 import org.aspectj.apache.bcel.classfile.Code;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import java.util.List;
  * >>> 爱旅行 认证控制模块控制类
  *
  */
-
+@Api(value = "用户认证模块")
 @RestController("authController")
 @RequestMapping("/auth/api")
 public class AuthController extends BaseController {
@@ -34,6 +35,8 @@ public class AuthController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
+	@ApiOperation(value = "根据用户提交账户查询name属性是否合法",produces = "application/json")
+
 	@GetMapping("/ckusr")
 	public ResponseDto<Object> checkUserEmailForRegistry(String name) throws Exception{
 		//检验用户提交的name属性是否合法

@@ -1,33 +1,58 @@
 package cc.ysf.dx.pojo.entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * >>> 酒店实体类
  */
+@ApiModel(value = "酒店实体对象")
 public class Hotel implements Serializable {
 	private static final long serialVersionUID = 2460539388787142885L;
+	@ApiModelProperty("[1] 酒店ID")
 	private Long id;
+	@ApiModelProperty("[1] 酒店名字")
 	private String hotelName;
+	@ApiModelProperty("[1] 国家ID")
 	private Long countryId;
+	@ApiModelProperty("[1]  省份ID")
 	private Long provinceId;
+	@ApiModelProperty("[1] 城市ID ")
 	private Long cityId;
+	@ApiModelProperty("[1]  酒店地址")
 	private String address;
+	@ApiModelProperty("[1] 酒店详情 ")
 	private String details;
+	@ApiModelProperty("[1] 酒店设施 ")
 	private String facilities;
+	@ApiModelProperty("[1] 酒店政策 ")
 	private String hotelPolicy;
+	@ApiModelProperty("[1]  酒店风格")
 	private Integer hotelType;
+	@ApiModelProperty("[1] 酒店星级 ")
 	private Integer hotelLevel;
+	@ApiModelProperty("[1]  ")
 	private Integer isGroupPurchase;
+	@ApiModelProperty("[1]  ")
 	private String redundantCityName;
+	@ApiModelProperty(value = "[2]  ",required = false)
 	private String redundantProvinceName;
+	@ApiModelProperty(value ="[2]  ",required = false)
 	private String redundantCountryName;
+	@ApiModelProperty(value ="[2]  ",required = false)
 	private Integer redundantHotelStore;
+	@ApiModelProperty(value ="[1]  ")
 	private Date creationDate;
+	@ApiModelProperty(value ="[2]  ",required = false)
 	private Long createdBy;
+	@ApiModelProperty(value ="[2]  ",required = false)
 	private Date modifyDate;
+	@ApiModelProperty(value ="[2]  ",required = false)
 	private Long modifiedBy;
+
 
 	public Long getId() {
 		return id;

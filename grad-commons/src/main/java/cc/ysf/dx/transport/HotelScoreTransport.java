@@ -1,16 +1,16 @@
 package cc.ysf.dx.transport;
 
 import cc.ysf.dx.pojo.entity.ItripComment;
+import cc.ysf.dx.pojo.entity.ItripImage;
+import cc.ysf.dx.pojo.entity.LabelDic;
 import cc.ysf.dx.pojo.vo.ItripListCommentVO;
 import cc.ysf.dx.pojo.vo.ItripScoreCommentVO;
 import cc.ysf.dx.pojo.vo.ItripSearchCommentVO;
 import cc.ysf.dx.pojo.vo.Page;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,4 +51,29 @@ public interface HotelScoreTransport {
 	 */
 	@PostMapping("/add")
 	Boolean addComment(@RequestBody ItripComment itripComment)throws Exception;
+
+	/**
+	 * >>> 获取出游类型
+	 * @param query
+	 * @return
+	 */
+	@PostMapping("/gettraveltype")
+	List<LabelDic> getTravelType(@RequestBody LabelDic query)throws Exception;
+
+	/**
+	 * ??? 保存图片
+	 * @param save
+	 * @return
+	 */
+	@PostMapping("/saveImg")
+	boolean saveImg(@RequestBody ItripImage save)throws Exception;
+
+	/**
+	 * >>> 根据ID 获取评论对象
+	 * @param orderId
+	 * @return
+	 * @throws Exception
+	 */
+	@PostMapping("/getcomment")
+	ItripComment getComment(@RequestParam Long orderId)throws Exception;
 }

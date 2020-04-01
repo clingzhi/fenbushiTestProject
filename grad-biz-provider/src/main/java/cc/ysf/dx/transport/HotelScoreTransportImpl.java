@@ -1,6 +1,8 @@
 package cc.ysf.dx.transport;
 
 import cc.ysf.dx.pojo.entity.ItripComment;
+import cc.ysf.dx.pojo.entity.ItripImage;
+import cc.ysf.dx.pojo.entity.LabelDic;
 import cc.ysf.dx.pojo.vo.ItripListCommentVO;
 import cc.ysf.dx.pojo.vo.ItripScoreCommentVO;
 import cc.ysf.dx.pojo.vo.ItripSearchCommentVO;
@@ -9,6 +11,7 @@ import cc.ysf.dx.service.HotelScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -59,6 +62,37 @@ public class HotelScoreTransportImpl implements HotelScoreTransport {
 	@PostMapping("/add")
 	public Boolean addComment(@RequestBody ItripComment itripComment) throws Exception {
 		return hotelScoreService.addComment(itripComment);
+	}
+
+	/**
+	 * >>> 获取出游类型
+	 * @param query
+	 * @return
+	 */
+	@PostMapping("/gettraveltype")
+	public List<LabelDic> getTravelType(@RequestBody LabelDic query) throws Exception {
+		return hotelScoreService.getTravelType(query);
+	}
+
+	/**
+	 * ??? 保存图片
+	 * @param save
+	 * @return
+	 */
+	@PostMapping("/saveImg")
+	public boolean saveImg(@RequestBody ItripImage save) throws Exception {
+		return hotelScoreService.saveImg(save);
+	}
+
+	/**
+	 * >>> 根据ID 获取评论对象
+	 * @param orderId
+	 * @return
+	 * @throws Exception
+	 */
+	@PostMapping("/getcomment")
+	public ItripComment getComment(@RequestParam Long orderId) throws Exception {
+		return hotelScoreService.getComment(orderId);
 	}
 
 }

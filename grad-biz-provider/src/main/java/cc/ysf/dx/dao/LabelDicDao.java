@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface LabelDicDao {
 	/**
-	 *   >>> 根据条件查询用户注册账号是否存在
+	 *   >>> 根据条件查询 房间特色信息
 	 * @param query
 	 * @return
 	 * @throws Exception

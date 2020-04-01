@@ -2,10 +2,7 @@ package cc.ysf.dx.service.Impl;
 
 
 import cc.ysf.dx.dao.*;
-import cc.ysf.dx.pojo.entity.Hotel;
-import cc.ysf.dx.pojo.entity.HotelOrder;
-import cc.ysf.dx.pojo.entity.HotelRoom;
-import cc.ysf.dx.pojo.entity.ItripComment;
+import cc.ysf.dx.pojo.entity.*;
 import cc.ysf.dx.pojo.vo.ItripListCommentVO;
 import cc.ysf.dx.pojo.vo.ItripScoreCommentVO;
 import cc.ysf.dx.pojo.vo.ItripSearchCommentVO;
@@ -35,6 +32,10 @@ public class HotelScoreServiceImpl implements HotelScoreService {
 	private HotelOrderDao hotelOrderDao;
 	@Autowired
 	private HotelRoomDao hotelRoomDao;
+	@Autowired
+	private LabelDicDao labelDicDao;
+	@Autowired
+	private ItripImgDao itripImgDao;
 	/**
 	 * >>> 根据条件查询酒店评分
 	 * @param query
@@ -155,5 +156,37 @@ public class HotelScoreServiceImpl implements HotelScoreService {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * >>> 获取出游类型
+	 * @param query
+	 * @return
+	 */
+	public List<LabelDic> getTravelType(LabelDic query) throws Exception {
+		List<LabelDic> labelDics = labelDicDao.findListByQuery(query) ;
+		if(labelDics != null){
+			return labelDics;
+		}
+		return new ArrayList<LabelDic>();
+	}
+
+	/**
+	 * ??? 保存图片
+	 * @param save
+	 * @return
+	 */
+	public boolean saveImg(ItripImage save) throws Exception {
+		return itripImgDao.saveImg(save);
+	}
+
+	/**
+	 * >>> 根据ID 获取评论对象
+	 * @param orderId
+	 * @return
+	 * @throws Exception
+	 */
+	public ItripComment getComment(Long orderId) throws Exception {
+		return hotelCommentDao.findCommentByOrderId(orderId);
 	}
 }

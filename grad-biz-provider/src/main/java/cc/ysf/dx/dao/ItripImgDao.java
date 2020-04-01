@@ -17,4 +17,10 @@ public interface ItripImgDao {
 	 * @return
 	 */
 	List<ItripImage> findListByQuery(ItripImage query) throws Exception;
+	/**
+	 * ??? 保存图片
+	 * @param save
+	 * @return
+	 */
+	boolean saveImg(ItripImage save)throws Exception;
 }

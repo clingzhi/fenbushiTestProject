@@ -1,11 +1,14 @@
 package cc.ysf.dx.service;
 
 import cc.ysf.dx.pojo.entity.ItripComment;
+import cc.ysf.dx.pojo.entity.ItripImage;
+import cc.ysf.dx.pojo.entity.LabelDic;
 import cc.ysf.dx.pojo.vo.ItripListCommentVO;
 import cc.ysf.dx.pojo.vo.ItripScoreCommentVO;
 import cc.ysf.dx.pojo.vo.ItripSearchCommentVO;
 import cc.ysf.dx.pojo.vo.Page;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,4 +42,23 @@ public interface HotelScoreService {
 	 * @throws Exception
 	 */
 	Boolean addComment(ItripComment itripComment)throws Exception;
+	/**
+	 * >>> 获取出游类型
+	 * @param query
+	 * @return
+	 */
+	List<LabelDic> getTravelType(LabelDic query)throws Exception;
+	/**
+	 * ??? 保存图片
+	 * @param save
+	 * @return
+	 */
+	boolean saveImg(ItripImage save)throws Exception;
+	/**
+	 * >>> 根据ID 获取评论对象
+	 * @param orderId
+	 * @return
+	 * @throws Exception
+	 */
+	ItripComment getComment(Long orderId)throws Exception;
 }

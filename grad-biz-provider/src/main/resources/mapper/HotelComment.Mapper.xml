@@ -45,7 +45,14 @@
 		</where>
 
 	</select>
-
+	<select id="findCommentByOrderId" parameterType="ItripComment" resultMap="ItripCommentMap">
+		SELECT
+			ic.id
+		FROM
+			itrip_comment ic
+		where
+			orderId=#{orderId}
+	</select>
 	<resultMap id="ItripCommentMap" type="ItripComment">
 		<id property="id" javaType="java.lang.Long" column="id"/>
 		<result property="hotelId" javaType="java.lang.Long" column="hotelId"/>
